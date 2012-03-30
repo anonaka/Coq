@@ -1,18 +1,21 @@
 Require Import List.
-
+Open Scope list_scope.
 Definition a := 3::2::1::nil.
-Variable A : Type.
-Hypothesis eq_dec : forall x y : A, {x = y}+{x <> y}.
+(* Variable A : Type. *)
+(* Hypothesis eq_dec : forall x y : A, {x = y}+{x <> y}. *)
+Check a.
+Print a.
 
-Fixpoint remove_one (x : A) (l : list A) : list A :=
+Fixpoint remove_one {A : Set} (x : A) (l : list A) : list A :=
   match l with
     | nil => nil
-    | y::tl => if (eq_dec x y) 
-      then tl
-      else y::(remove_one x tl)
+    | y::tl => match y with
+                 | x => tl
+                 | _ => y::(remove_one x tl)
+               end
   end.
 
-Eval compute in remove_one 3 a.
+Eval compute in (remove_one 3 a).
 
 Check a.
 Print a.
