@@ -1,26 +1,27 @@
 Require Import List.
-Open Scope list_scope.
-Definition a := 3::2::1::nil.
-(* Variable A : Type. *)
-(* Hypothesis eq_dec : forall x y : A, {x = y}+{x <> y}. *)
-Check a.
-Print a.
+Require Import Arith.
 
-Fixpoint remove_one {A : Set} (x : A) (l : list A) : list A :=
+Fixpoint remove_one_nat (x : nat) (l : list nat) : list nat :=
   match l with
     | nil => nil
-    | y::tl => match y with
-                 | x => tl
-                 | _ => y::(remove_one x tl)
-               end
+    | y::tl => if (eq_nat_dec x y) then tl else y::(remove_one_nat x tl)
   end.
 
-Eval compute in (remove_one 3 a).
+Fixpoint min_nat (l : list nat) : nat :=
+  match l with
+    | nil => 0
+    | x::nil => x
+    | x::xs => 
+      if (x <= (min_nat xs)) 
+        then x
+        else min_nat xs
+  end.
 
-Check a.
-Print a.
-Eval compute in length a.
-Eval compute in last a.
-Eval compute in head a.
-Eval compute in tail a.
-Eval compute in (remove 3 a).
+
+Fixpoint bubble_sort_nat (l : list nat) : list nat :=
+  match l with
+    | nil => nil
+    | _  => undfied
+  end.
+
+    
